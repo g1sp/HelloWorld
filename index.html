@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelloWorld - World Clock</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1em;
+        }
+
+        .cities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .city-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .city-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+        }
+
+        .city-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .city-time {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .city-timezone {
+            font-size: 0.85em;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .cities-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .city-card {
+                padding: 20px;
+            }
+
+            .city-time {
+                font-size: 1.6em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>HelloWorld</h1>
+            <p>Current Time Around the World</p>
+        </div>
+
+        <div class="cities-grid">
+            <div class="city-card">
+                <div class="city-name">Mumbai</div>
+                <div class="city-time" id="mumbai-time">--:--:--</div>
+                <div class="city-timezone">IST (UTC+5:30)</div>
+            </div>
+
+            <div class="city-card">
+                <div class="city-name">London</div>
+                <div class="city-time" id="london-time">--:--:--</div>
+                <div class="city-timezone">GMT/BST (UTC+0/+1)</div>
+            </div>
+
+            <div class="city-card">
+                <div class="city-name">Fremont</div>
+                <div class="city-time" id="fremont-time">--:--:--</div>
+                <div class="city-timezone">PST/PDT (UTC-8/-7)</div>
+            </div>
+
+            <div class="city-card">
+                <div class="city-name">Singapore</div>
+                <div class="city-time" id="singapore-time">--:--:--</div>
+                <div class="city-timezone">SGT (UTC+8)</div>
+            </div>
+
+            <div class="city-card">
+                <div class="city-name">Dubai</div>
+                <div class="city-time" id="dubai-time">--:--:--</div>
+                <div class="city-timezone">GST (UTC+4)</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+
+            // Format time for a specific timezone
+            const formatter = new Intl.DateTimeFormat('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false,
+                timeZone: 'Asia/Kolkata'
+            });
+
+            // Update each city
+            const cities = [
+                { id: 'mumbai-time', timezone: 'Asia/Kolkata' },
+                { id: 'london-time', timezone: 'Europe/London' },
+                { id: 'fremont-time', timezone: 'America/Los_Angeles' },
+                { id: 'singapore-time', timezone: 'Asia/Singapore' },
+                { id: 'dubai-time', timezone: 'Asia/Dubai' }
+            ];
+
+            cities.forEach(city => {
+                const timeString = new Intl.DateTimeFormat('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false,
+                    timeZone: city.timezone
+                }).format(now);
+
+                document.getElementById(city.id).textContent = timeString;
+            });
+        }
+
+        // Update time immediately and then every second
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+</body>
+</html>
